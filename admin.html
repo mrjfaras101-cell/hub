@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة المعلم — لا تُرفع إلى الإنترنت</title>
+<style>
+  :root{
+    --bg:#f6f7fc; --card:#fff; --ink:#0b1220; --muted:#5b667c; --line:rgba(11,18,32,.10);
+    --line-strong:rgba(11,18,32,.18);
+    --brand:#4f46e5; --brand-2:#7c6cff; --ok:#059669; --danger:#e11d48;
+    --r-xl:22px; --r-lg:16px; --r-md:12px; --r-sm:9px;
+    --shadow-sm:0 1px 2px rgba(11,18,32,.06);
+    --shadow:0 1px 2px rgba(11,18,32,.05), 0 18px 40px -26px rgba(11,18,32,.45);
+    --spring:cubic-bezier(.22,1,.36,1);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); line-height:1.7;
+    font-family:"Segoe UI","Noto Kufi Arabic","Dubai",Tahoma,system-ui,-apple-system,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(48rem 24rem at 100% -10%, rgba(79,70,229,.10), transparent 60%),
+      radial-gradient(40rem 22rem at 0% 0%, rgba(13,148,136,.08), transparent 60%);
+    background-repeat:no-repeat;
+  }
+  .wrap{max-width:1060px; margin:0 auto; padding:0 clamp(14px,2.6vw,24px)}
+  a{color:var(--brand); font-weight:700}
+  :focus-visible{outline:2px solid var(--brand); outline-offset:3px; border-radius:8px}
+
+  /* top */
+  .topbar{padding:16px 0 54px; position:relative; color:#fff;
+    background:linear-gradient(135deg,#1e1b4b 0%,#4338ca 55%,#6366f1 100%)}
+  .brand{display:flex; align-items:center; gap:10px; font-size:19px; font-weight:900; letter-spacing:-.3px}
+  .brand .sub{font-size:11px; font-weight:800; background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.26); padding:3px 10px; border-radius:999px; letter-spacing:0}
+  .brand .note{margin-inline-start:auto; font-size:12px; font-weight:700; color:#e0e7ff}
+  .tabs{display:flex; gap:5px; overflow-x:auto; scrollbar-width:none; margin-top:18px;
+    background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.16);
+    padding:5px; border-radius:15px; width:fit-content; max-width:100%}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{flex:0 0 auto; font-size:13.5px; font-weight:800; cursor:pointer;
+    padding:9px 17px; border-radius:11px; border:0; background:transparent; color:#dbe3ff;
+    transition:.28s var(--spring); white-space:nowrap}
+  .tabs button:hover{background:rgba(255,255,255,.13); color:#fff}
+  .tabs button.on{background:#fff; color:#312e81; box-shadow:0 8px 18px -10px rgba(0,0,0,.6)}
+
+  main{margin-top:-40px; padding-bottom:60px}
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:var(--r-xl);
+    box-shadow:var(--shadow); padding:clamp(18px,2.6vw,28px); margin-bottom:16px}
+  h2{margin:0 0 4px; font-size:19px; letter-spacing:-.3px}
+  h3{margin:26px 0 10px; font-size:15px; letter-spacing:-.2px; color:#1f2937}
+  .hint{color:var(--muted); font-size:12.8px; margin:0 0 18px}
+
+  label{display:block; font-size:12.4px; font-weight:800; color:#414c63; margin-bottom:6px}
+  input[type=text], input[type=url], input[type=password], input[type=email], textarea{
+    width:100%; font-family:inherit; font-size:13.8px; color:var(--ink);
+    padding:11px 13px; border:1px solid var(--line); border-radius:var(--r-md);
+    background:#f8fafc; outline:none; transition:.2s var(--spring);
+  }
+  input:hover, textarea:hover{border-color:var(--line-strong)}
+  input:focus, textarea:focus{border-color:var(--brand); background:#fff;
+    box-shadow:0 0 0 3px rgba(79,70,229,.14)}
+  textarea{resize:vertical; min-height:66px; line-height:1.65}
+  input[type=color]{width:48px; height:42px; padding:3px; border:1px solid var(--line);
+    border-radius:var(--r-md); background:#fff; cursor:pointer}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .grid3{display:grid; grid-template-columns:76px 1fr 132px; gap:12px}
+  .row{margin-bottom:14px}
+  @media(max-width:640px){ .grid2,.grid3{grid-template-columns:1fr} .brand .note{display:none} }
+
+  .btn{font-size:13.2px; font-weight:800; cursor:pointer; padding:10px 18px;
+    border-radius:var(--r-md); border:1px solid var(--line); background:#fff; color:#334155;
+    display:inline-flex; align-items:center; gap:7px; transition:.25s var(--spring); font-family:inherit}
+  .btn:hover{border-color:var(--line-strong); transform:translateY(-2px); box-shadow:var(--shadow-sm)}
+  .btn:active{transform:scale(.98)}
+  .btn.primary{background:linear-gradient(145deg,var(--brand),var(--brand-2)); border-color:transparent;
+    color:#fff; box-shadow:0 14px 28px -16px var(--brand), inset 0 1px 0 rgba(255,255,255,.22)}
+  .btn.ok{background:linear-gradient(145deg,#059669,#10b981); border-color:transparent; color:#fff;
+    box-shadow:0 14px 28px -18px #059669}
+  .btn.danger{color:#be123c; border-color:#fecdd3; background:#fff5f6}
+  .btn.danger:hover{background:#ffe4e6}
+  .btn.small{padding:6px 11px; font-size:12px; border-radius:var(--r-sm)}
+  .btn:disabled{opacity:.55; cursor:not-allowed; transform:none; box-shadow:none}
+  .actions{display:flex; gap:9px; flex-wrap:wrap; align-items:center}
+
+  .item{border:1px solid var(--line); border-radius:var(--r-lg); padding:15px;
+    margin-bottom:12px; background:#fbfcfe; transition:.25s var(--spring)}
+  .item:hover{border-color:var(--line-strong); box-shadow:var(--shadow-sm)}
+  .item-head{display:flex; align-items:center; gap:8px; margin-bottom:10px;
+    font-size:11.8px; font-weight:900; color:#8a95ab; letter-spacing:.2px}
+  .item-head .sp{margin-inline-start:auto; display:flex; gap:6px}
+
+  .cls{border:1.5px solid var(--line); border-radius:var(--r-xl); padding:17px;
+    margin-bottom:16px; background:#fbfcfe}
+  .cls:hover{border-color:var(--line-strong)}
+  .cls-top{display:flex; align-items:center; gap:10px; margin-bottom:14px}
+  .cls-dot{width:14px; height:14px; border-radius:50%; box-shadow:0 0 0 4px rgba(79,70,229,.10)}
+
+  .log{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12.3px;
+    direction:ltr; text-align:left; background:#0b1220; color:#cbd5e1; border-radius:var(--r-lg);
+    padding:14px 16px; min-height:76px; max-height:240px; overflow:auto;
+    white-space:pre-wrap; margin-top:16px; line-height:1.65}
+  .log .ok{color:#4ade80} .log .err{color:#f87171} .log .info{color:#93c5fd}
+
+  .callout{background:#eef2ff; border:1px solid #c7d2fe; border-radius:var(--r-md);
+    padding:14px 16px; font-size:12.9px; color:#312e81}
+  .callout.warn{background:#fffbeb; border-color:#fde68a; color:#92400e}
+  .callout ol{margin:8px 0 0; padding-inline-start:18px}
+  .callout li{margin-bottom:6px}
+
+  .toast{position:fixed; inset-inline-start:50%; bottom:26px; transform:translate(-50%,22px);
+    background:#0b1220; color:#fff; padding:12px 22px; border-radius:var(--r-md);
+    font-size:13.2px; font-weight:800; opacity:0; pointer-events:none;
+    transition:.28s var(--spring); z-index:99; box-shadow:0 24px 46px -22px rgba(0,0,0,.7)}
+  .toast.show{opacity:1; transform:translate(-50%,0)}
+  .toast.bad{background:#be123c}
+  .toast.good{background:#059669}
+  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      🛠️ لوحة المعلم
+      <span class="sub">ملف خاص — لا يُرفع إلى الإنترنت</span>
+      <span class="note">كل ما تضيفه هنا يظهر للطلاب بعد الضغط على «نشر»</span>
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </div>
+</div>
+
+<main class="wrap">
+  <div id="view"></div>
+</main>
+
+<datalist id="tagList">
+  <option value="مهمة"></option><option value="مستودع"></option><option value="تدريب"></option>
+  <option value="مرجع"></option><option value="فيديو"></option><option value="ورقة عمل"></option>
+</datalist>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============ البيانات الافتراضية ============ */
+  var DEFAULT_STATE = {
+    "site": {
+      "title": "بوابة أ. باسم النعيمي",
+      "teacher": "أ. باسم النعيمي",
+      "subject": "المهارات الرقمية · البرمجة بلغة Python",
+      "school": "مدرسة صويلح الثانوية للبنين",
+      "tagline": "أوراق العمل، المحاكيات التفاعلية، وروابط الأدوات، وتسليم المهام — كل ما تحتاجه لصفّك في مكان واحد.",
+      "year": "2026 / 2027",
+      "email": "",
+      "lastUpdated": "2026-10-26",
+      "accent": "#4f46e5",
+      "accent2": "#7c6cff"
+    },
+    "instructions": [
+      {
+        "icon": "1️⃣",
+        "title": "اختر صفّك",
+        "text": "من الأعلى: الصف العاشر أو الأول الثانوي، ثم اختر شعبتك."
+      },
+      {
+        "icon": "2️⃣",
+        "title": "افتح ورقة العمل",
+        "text": "اضغط بطاقة أوراق العمل لصفّك، وحمّل النسخة التي يطلبها المعلم."
+      },
+      {
+        "icon": "3️⃣",
+        "title": "جرّب المحاكي",
+        "text": "استخدم Python Tutor لتتبّع تنفيذ الكود خطوة بخطوة، ولوحة Padlet للأنشطة."
+      },
+      {
+        "icon": "4️⃣",
+        "title": "سلّم حلّك",
+        "text": "افتح نموذج التسليم، واكتب اسمك وشعبتك، وأرفق رابط حلّك أو الملف."
+      }
+    ],
+    "tools": [
+      {
+        "icon": "🐍",
+        "title": "Python Tutor",
+        "url": "https://pythontutor.com/visualize.html#mode=edit",
+        "note": "تتبّع تنفيذ الكود خطوة بخطوة"
+      },
+      {
+        "icon": "📌",
+        "title": "لوحة Padlet",
+        "url": "https://padlet.com/mrjfaras101/2026-2027-vjo1n9wox4mfrb7d",
+        "note": "الأنشطة والمشاركات الصفية 2026/2027"
+      }
+    ],
+    "classes": [
+      {
+        "id": "g10",
+        "name": "الصف العاشر",
+        "icon": "🎓",
+        "color": "#4f46e5",
+        "intro": "المهارات الرقمية — أوراق عمل الوحدة الأولى مع الحلول والمحاكيات التفاعلية.",
+        "groups": [
+          "أ",
+          "ب",
+          "ج",
+          "د",
+          "هـ"
+        ],
+        "formUrl": "",
+        "cards": [
+          {
+            "icon": "📘",
+            "title": "أوراق عمل المهارات الرقمية",
+            "url": "https://mrjfaras101-cell.github.io/g10ws/",
+            "desc": "الحقيبة الكاملة، ونسخة الطالب بدون حلول، وأوراق الدروس 1–4 بصيغة Word.",
+            "tag": "أوراق عمل"
+          }
+        ]
+      },
+      {
+        "id": "g11",
+        "name": "الأول الثانوي",
+        "icon": "🧭",
+        "color": "#0d9488",
+        "intro": "البرمجة بلغة Python — أوراق عمل تفاعلية ومحاكيات لتنفيذ البرامج.",
+        "groups": [
+          "أ",
+          "ب",
+          "ج"
+        ],
+        "formUrl": "",
+        "cards": [
+          {
+            "icon": "🐍",
+            "title": "أوراق عمل بايثون التفاعلية",
+            "url": "https://mrjfaras101-cell.github.io/grad10ws/",
+            "desc": "ثلاث أوراق عمل مع الحلول، مساحة كتابة كود، ومحاكي تنفيذ البرنامج.",
+            "tag": "أوراق عمل"
+          }
+        ]
+      }
+    ]
+  };
+
+  var TABS = [
+    { id:"general", title:"⚙️ عام" },
+    { id:"instructions", title:"📌 الإرشادات" },
+    { id:"tools", title:"🧰 الأدوات" },
+    { id:"classes", title:"🏫 الصفوف والبطاقات" },
+    { id:"publish", title:"🚀 النشر والتحديث" }
+  ];
+
+  var KEY_STATE = "ch_admin_state_v1";
+  var KEY_CFG   = "ch_admin_cfg_v1";
+  var PREVIEW_KEY = "SITE_DATA_PREVIEW";
+
+  var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+
+  var state = loadState();
+  var tab = "general";
+
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(KEY_STATE);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return clone(DEFAULT_STATE);
+  }
+  function saveState() {
+    try { localStorage.setItem(KEY_STATE, JSON.stringify(state)); } catch (e) {}
+  }
+  function cfg() {
+    try { return JSON.parse(localStorage.getItem(KEY_CFG) || "{}"); } catch (e) { return {}; }
+  }
+  function setCfg(o) { try { localStorage.setItem(KEY_CFG, JSON.stringify(o)); } catch (e) {} }
+
+  function esc(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
+    });
+  }
+  function toast(msg, kind) {
+    var t = $("#toast");
+    t.textContent = msg;
+    t.className = "toast show" + (kind ? " " + kind : "");
+    clearTimeout(t._t);
+    t._t = setTimeout(function () { t.className = "toast"; }, 2600);
+  }
+  function setPath(obj, path, val) {
+    var p = path.split("."); var o = obj;
+    for (var i = 0; i < p.length - 1; i++) o = o[p[i]];
+    o[p[p.length - 1]] = val;
+  }
+  function getPath(obj, path) {
+    return path.split(".").reduce(function (a, k) { return a == null ? a : a[k]; }, obj);
+  }
+
+  /* ============ تبويبات ============ */
+  function renderTabs() {
+    $("#tabs").innerHTML = TABS.map(function (t) {
+      return '<button type="button" class="' + (t.id === tab ? "on" : "") + '" data-tab="' + t.id + '">' + t.title + "</button>";
+    }).join("");
+  }
+
+  /* ============ الحقول ============ */
+  function field(label, path, opts) {
+    opts = opts || {};
+    var val = getPath(state, path);
+    if (Array.isArray(val)) {
+      val = val.map(function (g) { return (g && typeof g === "object") ? g.name : g; }).join("، ");
+    }
+    var type = opts.type || "text";
+    var ph = opts.ph ? ' placeholder="' + esc(opts.ph) + '"' : "";
+    var dl = opts.datalist ? ' list="' + opts.datalist + '"' : "";
+    var input;
+    if (type === "textarea") {
+      input = '<textarea data-k="' + path + '" rows="' + (opts.rows || 3) + '"' + ph + ">" + esc(val) + "</textarea>";
+    } else if (type === "color") {
+      input = '<input type="color" data-k="' + path + '" value="' + esc(val || "#2563eb") + '">';
+    } else {
+      input = '<input type="' + type + '" data-k="' + path + '" value="' + esc(val) + '"' + ph + dl + ">";
+    }
+    return '<div><label>' + esc(label) + "</label>" + input + "</div>";
+  }
+
+  /* ============ العرض ============ */
+  function render() {
+    renderTabs();
+    var v = $("#view");
+    if (tab === "general") v.innerHTML = viewGeneral();
+    else if (tab === "instructions") v.innerHTML = viewInstructions();
+    else if (tab === "tools") v.innerHTML = viewTools();
+    else if (tab === "classes") v.innerHTML = viewClasses();
+    else if (tab === "publish") v.innerHTML = viewPublish();
+    v.querySelectorAll("input,textarea").forEach(function (el) {
+      var list = el.getAttribute("data-list");
+      if (list === "1") return;
+    });
+  }
+
+  /* ---------- عام ---------- */
+  function viewGeneral() {
+    return '<div class="panel">' +
+      "<h2>⚙️ معلومات الموقع</h2>" +
+      '<p class="hint">هذه المعلومات تظهر في رأس صفحة الطلاب وفي التذييل.</p>' +
+      '<div class="grid2">' +
+        field("عنوان الموقع", "site.title", { ph:"بوابة الطلاب" }) +
+        field("اسم المعلم", "site.teacher", { ph:"أ. فلان الفلاني" }) +
+        field("المادة", "site.subject") +
+        field("المدرسة", "site.school") +
+        field("العام الدراسي", "site.year") +
+        field("بريد التواصل", "site.email", { type:"email" }) +
+      "</div>" +
+      '<div class="row" style="margin-top:14px">' + field("الوصف المختصر (يظهر تحت العنوان)", "site.tagline", { type:"textarea", rows:2 }) + "</div>" +
+      '<div class="row">' + field("تاريخ آخر تحديث (يظهر في التذييل)", "site.lastUpdated", { ph:"2026-10-26" }) + "</div>" +
+      '<div class="actions"><button class="btn" data-act="today">📅 ضع تاريخ اليوم</button></div>' +
+
+      "<h3>🎨 الألوان</h3>" +
+      '<p class="hint">اللون الأساسي يظهر في التبويب النشط والعناوين والتذييل. ولكل صف لونه الخاص من تبويب «الصفوف والبطاقات».</p>' +
+      '<div class="grid2">' +
+        field("اللون الأساسي", "site.accent", { type:"color" }) +
+        field("اللون الثانوي (للتدرّج)", "site.accent2", { type:"color" }) +
+      "</div>" +
+      "<h3>لوحات جاهزة</h3>" +
+      '<div class="actions">' +
+        '<button class="btn small" data-act="palette" data-p="indigo">🟣 بنفسجي</button>' +
+        '<button class="btn small" data-act="palette" data-p="teal">🟢 أخضر مزرق</button>' +
+        '<button class="btn small" data-act="palette" data-p="blue">🔵 أزرق</button>' +
+        '<button class="btn small" data-act="palette" data-p="amber">🟠 كهرماني</button>' +
+        '<button class="btn small" data-act="palette" data-p="rose">🔴 وردي</button>' +
+      "</div>" +
+    "</div>";
+  }
+
+  /* ---------- الإرشادات ---------- */
+  function viewInstructions() {
+    var items = (state.instructions || []).map(function (it, i) {
+      return '<div class="item">' +
+        '<div class="item-head"><span>إرشاد #' + (i + 1) + "</span>" +
+          '<span class="sp">' +
+            '<button class="btn small" data-act="move-inst" data-i="' + i + '" data-d="-1" title="أعلى">↑</button>' +
+            '<button class="btn small" data-act="move-inst" data-i="' + i + '" data-d="1" title="أسفل">↓</button>' +
+            '<button class="btn small danger" data-act="del-inst" data-i="' + i + '">حذف</button>' +
+          "</span></div>" +
+        '<div class="grid3">' +
+          field("الأيقونة", "instructions." + i + ".icon") +
+          field("العنوان", "instructions." + i + ".title") +
+          '<div></div>' +
+        "</div>" +
+        '<div class="row" style="margin-top:12px">' + field("النص", "instructions." + i + ".text", { type:"textarea", rows:2 }) + "</div>" +
+      "</div>";
+    }).join("");
+    return '<div class="panel">' +
+      "<h2>📌 إرشادات الطلاب</h2>" +
+      '<p class="hint">تظهر هذه الإرشادات أعلى صفحة الطلاب. اجعلها قصيرة وواضحة.</p>' +
+      (items || '<div class="callout">لا توجد إرشادات بعد.</div>') +
+      '<div class="actions" style="margin-top:14px"><button class="btn primary" data-act="add-inst">➕ إضافة إرشاد</button></div>' +
+    "</div>";
+  }
+
+  /* ---------- الأدوات ---------- */
+  function viewTools() {
+    var items = (state.tools || []).map(function (it, i) {
+      return '<div class="item">' +
+        '<div class="item-head"><span>أداة #' + (i + 1) + "</span>" +
+          '<span class="sp">' +
+            '<button class="btn small" data-act="move-tool" data-i="' + i + '" data-d="-1">↑</button>' +
+            '<button class="btn small" data-act="move-tool" data-i="' + i + '" data-d="1">↓</button>' +
+            '<button class="btn small danger" data-act="del-tool" data-i="' + i + '">حذف</button>' +
+          "</span></div>" +
+        '<div class="grid3">' +
+          field("الأيقونة", "tools." + i + ".icon") +
+          field("الاسم", "tools." + i + ".title") +
+          field("الرابط", "tools." + i + ".url", { type:"url", ph:"https://" }) +
+        "</div>" +
+        '<div class="row" style="margin-top:12px">' + field("وصف قصير", "tools." + i + ".note") + "</div>" +
+      "</div>";
+    }).join("");
+    return '<div class="panel">' +
+      "<h2>🧰 الأدوات السريعة</h2>" +
+      '<p class="hint">تظهر لجميع الصفوف في قسم «أدوات سريعة» — مثل Python Tutor و W3Schools.</p>' +
+      (items || '<div class="callout">لا توجد أدوات بعد.</div>') +
+      '<div class="actions" style="margin-top:14px"><button class="btn primary" data-act="add-tool">➕ إضافة أداة</button></div>' +
+    "</div>";
+  }
+
+  /* ---------- الصفوف ---------- */
+  function viewClasses() {
+    var blocks = (state.classes || []).map(function (c, ci) {
+      var cards = (c.cards || []).map(function (cd, i) {
+        return '<div class="item">' +
+          '<div class="item-head"><span>بطاقة #' + (i + 1) + "</span>" +
+            '<span class="sp">' +
+              '<button class="btn small" data-act="move-card" data-c="' + ci + '" data-i="' + i + '" data-d="-1">↑</button>' +
+              '<button class="btn small" data-act="move-card" data-c="' + ci + '" data-i="' + i + '" data-d="1">↓</button>' +
+              '<button class="btn small danger" data-act="del-card" data-c="' + ci + '" data-i="' + i + '">حذف</button>' +
+            "</span></div>" +
+          '<div class="grid3">' +
+            field("الأيقونة", "classes." + ci + ".cards." + i + ".icon") +
+            field("العنوان", "classes." + ci + ".cards." + i + ".title") +
+            field("التصنيف", "classes." + ci + ".cards." + i + ".tag", { datalist:"tagList", ph:"مهمة" }) +
+          "</div>" +
+          '<div class="row" style="margin-top:12px">' + field("الرابط", "classes." + ci + ".cards." + i + ".url", { type:"url", ph:"https://github.com/..." }) + "</div>" +
+          '<div class="row">' + field("وصف قصير", "classes." + ci + ".cards." + i + ".desc") + "</div>" +
+        "</div>";
+      }).join("");
+
+      var groupsTxt = (c.groups || []).map(function (g) { return typeof g === "object" ? g.name : g; }).join("، ");
+
+      return '<div class="cls">' +
+        '<div class="cls-top">' +
+          '<span class="cls-dot" style="background:' + esc(c.color || "#2563eb") + '"></span>' +
+          "<strong>" + esc(c.name || "صف بدون اسم") + "</strong>" +
+          '<span style="margin-inline-start:auto"><button class="btn small danger" data-act="del-class" data-c="' + ci + '">حذف الصف</button></span>' +
+        "</div>" +
+        '<div class="grid3">' +
+          field("الأيقونة", "classes." + ci + ".icon") +
+          field("اسم الصف", "classes." + ci + ".name") +
+          '<div><label>اللون</label><input type="color" data-k="classes.' + ci + '.color" value="' + esc(c.color || "#2563eb") + '"></div>' +
+        "</div>" +
+        '<div class="row" style="margin-top:12px">' + field("وصف الصف", "classes." + ci + ".intro", { type:"textarea", rows:2 }) + "</div>" +
+        '<div class="grid2">' +
+          field("الشُّعَب (افصل بينها بفاصلة)", "classes." + ci + ".groups", { ph:"أ، ب، ج" }) +
+          field("رابط نموذج التسليم (Google Form)", "classes." + ci + ".formUrl", { type:"url", ph:"https://docs.google.com/forms/d/e/.../viewform" }) +
+        "</div>" +
+        '<p class="hint" style="margin:8px 0 14px">رابط النموذج: افتح النموذج في Google Forms ← إرسال ← أيقونة الرابط ← انسخ. الصق هنا الرابط المنتهي بـ <b>viewform</b>.</p>' +
+        "<h3 style='margin-top:6px'>🔗 بطاقات الروابط لهذا الصف</h3>" +
+        (cards || '<div class="callout" style="margin-bottom:12px">لا توجد بطاقات بعد.</div>') +
+        '<div class="actions"><button class="btn primary small" data-act="add-card" data-c="' + ci + '">➕ إضافة بطاقة</button></div>' +
+      "</div>";
+    }).join("");
+
+    return '<div class="panel">' +
+      "<h2>🏫 الصفوف والبطاقات</h2>" +
+      '<p class="hint">كل صف يظهر كتبويب مستقل في صفحة الطلاب. أضف لكل صف بطاقاته وشُعَبه ونموذج التسليم.</p>' +
+      blocks +
+      '<div class="actions" style="margin-top:8px"><button class="btn ok" data-act="add-class">➕ إضافة صف جديد</button></div>' +
+    "</div>";
+  }
+
+  /* ---------- النشر ---------- */
+  function viewPublish() {
+    var c = cfg();
+    return '<div class="panel">' +
+      "<h2>🚀 النشر والتحديث</h2>" +
+      '<p class="hint">اربط اللوحة بمستودع GitHub مرة واحدة، وبعدها كل تعديل يُنشر بزر واحد.</p>' +
+
+      '<div class="callout warn" style="margin-bottom:18px">' +
+        "<b>مهم:</b> هذه اللوحة تعمل فقط عند فتحها من جهازك (Chrome/Edge). المعاينة داخل التطبيق بلا إنترنت، فلن تتصل بـ GitHub." +
+      "</div>" +
+
+      '<div class="grid2">' +
+        '<div><label>اسم المستخدم في GitHub</label><input type="text" id="c-owner" value="' + esc(c.owner || "") + '" placeholder="username"></div>' +
+        '<div><label>اسم المستودع</label><input type="text" id="c-repo" value="' + esc(c.repo || "") + '" placeholder="class-hub"></div>' +
+        '<div><label>الفرع (Branch)</label><input type="text" id="c-branch" value="' + esc(c.branch || "main") + '" placeholder="main"></div>' +
+        '<div><label>مسار ملف البيانات</label><input type="text" id="c-path" value="' + esc(c.path || "data.js") + '" placeholder="data.js"></div>' +
+      "</div>" +
+      '<div class="row" style="margin-top:14px">' +
+        '<label>GitHub Token (Fine-grained)</label>' +
+        '<input type="password" id="c-token" value="' + esc(c.token || "") + '" placeholder="github_pat_..." autocomplete="off">' +
+        '<p class="hint" style="margin:6px 0 0">يبقى هذا التوكن على جهازك فقط (localStorage) ولا يُرسل إلى أي مكان غير GitHub.</p>' +
+      "</div>" +
+
+      '<div class="actions" style="margin-top:16px">' +
+        '<button class="btn primary" data-act="publish">🚀 نشر إلى GitHub</button>' +
+        '<button class="btn" data-act="pull">⬇️ جلب البيانات الحالية</button>' +
+        '<button class="btn" data-act="preview">👁️ معاينة محلية</button>' +
+        '<button class="btn" data-act="export">💾 تصدير data.js</button>' +
+        '<button class="btn" data-act="import">📂 استيراد ملف</button>' +
+      "</div>" +
+
+      '<div class="log" id="log"><span class="info">جاهز. اضبط الإعدادات ثم اضغط «نشر».</span></div>' +
+
+      '<h3>🔑 كيف أنشئ التوكن؟ (مرة واحدة فقط)</h3>' +
+      '<div class="callout"><ol>' +
+        '<li>افتح <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a></li>' +
+        "<li>Token name: أي اسم مثل <b>class-hub-publish</b> · Expiration: 90 يوماً أو أكثر.</li>" +
+        "<li>Repository access ← <b>Only select repositories</b> ← اختر مستودع الموقع فقط.</li>" +
+        "<li>Permissions ← Repository permissions ← <b>Contents: Read and write</b> (لا شيء آخر).</li>" +
+        "<li>اضغط Generate token وانسخه والصقه في الحقل أعلاه.</li>" +
+      "</ol></div>" +
+
+      '<h3>📘 خطوات النشر لأول مرة</h3>' +
+      '<div class="callout"><ol>' +
+        "<li>أنشئ مستودعاً عاماً على GitHub (مثلاً <b>class-hub</b>).</li>" +
+        "<li>ارفع <b>index.html</b> و <b>data.js</b> من مجلد الحزمة إلى المستودع (لا ترفع admin.html).</li>" +
+        "<li>Settings ← Pages ← Branch: main / root ← Save → رابط موقعك: <b>username.github.io/class-hub</b></li>" +
+        "<li>املأ بيانات المستودع والتوكن أعلاه، ثم اضغط «نشر» عند أي تعديل لاحق.</li>" +
+      "</ol></div>" +
+
+      '<div class="actions" style="margin-top:18px">' +
+        '<button class="btn danger" data-act="reset">♻️ استعادة البيانات الافتراضية</button>' +
+      "</div>" +
+    "</div>";
+  }
+
+  /* ============ أحداث ============ */
+  document.addEventListener("input", function (e) {
+    var t = e.target;
+    if (t.id && /^c-/.test(t.id)) { persistCfg(); return; }
+    var k = t.getAttribute && t.getAttribute("data-k");
+    if (!k) return;
+    var val = t.value;
+    if (k.endsWith(".groups")) {
+      state.classes = state.classes || [];
+      var parts = k.split(".");
+      var cls = state.classes[Number(parts[1])];
+      cls.groups = val.split(/[،,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      saveState();
+      return;
+    }
+    setPath(state, k, val);
+    saveState();
+    if (k === "site.title" || k === "site.teacher") renderTabs();
+    if (/\.(color)$/.test(k)) {
+      var dot = t.closest(".cls") && t.closest(".cls").querySelector(".cls-dot");
+      if (dot) dot.style.background = val;
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-act],[data-tab]");
+    if (!t) return;
+
+    var tb = t.getAttribute("data-tab");
+    if (tb) { tab = tb; render(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+
+    var act = t.getAttribute("data-act");
+    var i = Number(t.getAttribute("data-i"));
+    var c = Number(t.getAttribute("data-c"));
+    var d = Number(t.getAttribute("data-d"));
+
+    if (act === "palette") {
+      var P = {
+        indigo: ["#4f46e5", "#7c6cff"],
+        teal:   ["#0d9488", "#2dd4bf"],
+        blue:   ["#2563eb", "#60a5fa"],
+        amber:  ["#d97706", "#fbbf24"],
+        rose:   ["#e11d48", "#fb7185"]
+      };
+      var sel = P[t.getAttribute("data-p")] || P.indigo;
+      state.site.accent = sel[0];
+      state.site.accent2 = sel[1];
+      saveState(); render(); toast("تم تطبيق اللوحة اللونية", "good");
+    }
+    else if (act === "today") {
+      state.site.lastUpdated = new Date().toISOString().slice(0, 10);
+      saveState(); render(); toast("تم تحديث التاريخ", "good");
+    }
+    else if (act === "add-inst") {
+      state.instructions = state.instructions || [];
+      state.instructions.push({ icon: "•", title: "إرشاد جديد", text: "" });
+      saveState(); render();
+    }
+    else if (act === "del-inst") {
+      if (confirm("حذف هذا الإرشاد؟")) { state.instructions.splice(i, 1); saveState(); render(); }
+    }
+    else if (act === "move-inst") { moveIn(state.instructions, i, d); saveState(); render(); }
+
+    else if (act === "add-tool") {
+      state.tools = state.tools || [];
+      state.tools.push({ icon: "🔗", title: "أداة جديدة", url: "https://", note: "" });
+      saveState(); render();
+    }
+    else if (act === "del-tool") {
+      if (confirm("حذف هذه الأداة؟")) { state.tools.splice(i, 1); saveState(); render(); }
+    }
+    else if (act === "move-tool") { moveIn(state.tools, i, d); saveState(); render(); }
+
+    else if (act === "add-class") {
+      state.classes = state.classes || [];
+      state.classes.push({
+        id: "c" + Date.now(), name: "صف جديد", icon: "📘", color: "#7c3aed",
+        intro: "", groups: [], formUrl: "", cards: []
+      });
+      saveState(); render();
+    }
+    else if (act === "del-class") {
+      if (confirm("حذف هذا الصف وكل بطاقاته؟")) { state.classes.splice(c, 1); saveState(); render(); }
+    }
+    else if (act === "add-card") {
+      state.classes[c].cards = state.classes[c].cards || [];
+      state.classes[c].cards.push({ icon: "🔗", title: "رابط جديد", url: "https://", desc: "", tag: "مهمة" });
+      saveState(); render();
+    }
+    else if (act === "del-card") {
+      if (confirm("حذف هذه البطاقة؟")) { state.classes[c].cards.splice(i, 1); saveState(); render(); }
+    }
+    else if (act === "move-card") { moveIn(state.classes[c].cards, i, d); saveState(); render(); }
+
+    else if (act === "publish") doPublish(t);
+    else if (act === "pull") doPull(t);
+    else if (act === "preview") doPreview();
+    else if (act === "export") doExport();
+    else if (act === "import") doImport();
+    else if (act === "reset") {
+      if (confirm("استعادة البيانات الافتراضية؟ سيتم فقدان تعديلاتك المحلية.")) {
+        state = clone(DEFAULT_STATE); saveState(); render(); toast("تمت الاستعادة");
+      }
+    }
+  });
+
+  function moveIn(arr, i, d) {
+    var j = i + d;
+    if (j < 0 || j >= arr.length) return;
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+  }
+
+  /* ============ GitHub ============ */
+  function persistCfg() {
+    var g = function (id) { var el = $(id); return el ? el.value.trim() : ""; };
+    var prev = cfg();
+    setCfg({
+      owner: g("#c-owner") || prev.owner || "",
+      repo: g("#c-repo") || prev.repo || "",
+      branch: g("#c-branch") || prev.branch || "main",
+      path: g("#c-path") || prev.path || "data.js",
+      token: $("#c-token") ? $("#c-token").value.trim() : (prev.token || "")
+    });
+  }
+  function readCfg() {
+    var o = {
+      owner: $("#c-owner") ? $("#c-owner").value.trim() : (cfg().owner || ""),
+      repo: $("#c-repo") ? $("#c-repo").value.trim() : (cfg().repo || ""),
+      branch: ($("#c-branch") ? $("#c-branch").value.trim() : "") || "main",
+      path: ($("#c-path") ? $("#c-path").value.trim() : "") || "data.js",
+      token: $("#c-token") ? $("#c-token").value.trim() : (cfg().token || "")
+    };
+    setCfg(o);
+    return o;
+  }
+  function log(msg, kind) {
+    var el = $("#log");
+    if (!el) return;
+    var cls = kind ? ' class="' + kind + '"' : "";
+    el.innerHTML += "\n<span" + cls + ">" + esc(msg) + "</span>";
+    el.scrollTop = el.scrollHeight;
+  }
+  function logReset(msg) {
+    var el = $("#log");
+    if (el) el.innerHTML = '<span class="info">' + esc(msg) + "</span>";
+  }
+  function b64enc(str) {
+    var bytes = new TextEncoder().encode(str), bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function b64dec(b64) {
+    var bin = atob(String(b64).replace(/\s/g, ""));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+  function serialize(st) {
+    return "/* ملف بيانات البوابة — يُولَّد من لوحة المعلم */\nwindow.SITE_DATA = " +
+      JSON.stringify(st, null, 2) + ";\n";
+  }
+  function parseDataJs(text) {
+    if (/^\s*[\{\[]/.test(text)) return JSON.parse(text);
+    var w = {};
+    new Function("window", text)(w);
+    return w.SITE_DATA;
+  }
+  function ghHeaders(c) {
+    return {
+      "Authorization": "Bearer " + c.token,
+      "Accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28"
+    };
+  }
+  function describe(status) {
+    if (status === 401) return "التوكن غير صحيح أو منتهي الصلاحية.";
+    if (status === 403) return "التوكن لا يملك صلاحية Contents: Read and write على هذا المستودع.";
+    if (status === 404) return "المستودع أو المسار غير موجود — تحقق من اسم المستخدم والمستودع والفرع.";
+    if (status === 409) return "تعارض في الحفظ: اضغط «جلب البيانات» ثم أعد النشر.";
+    if (status === 422) return "بيانات غير صالحة (غالباً التوكن لا يملك صلاحية الكتابة).";
+    return "خطأ غير متوقع (HTTP " + status + ").";
+  }
+
+  async function doPull(btn) {
+    var c = readCfg();
+    if (!c.owner || !c.repo || !c.token) { toast("أكمل بيانات المستودع والتوكن", "bad"); return; }
+    var old = btn.textContent; btn.disabled = true; btn.textContent = "…جارٍ الجلب";
+    logReset("جلب البيانات من GitHub…");
+    try {
+      var url = "https://api.github.com/repos/" + c.owner + "/" + c.repo + "/contents/" + encodeURI(c.path) + "?ref=" + encodeURIComponent(c.branch);
+      var r = await fetch(url, { headers: ghHeaders(c), cache: "no-store" });
+      if (!r.ok) throw new Error(describe(r.status));
+      var j = await r.json();
+      var parsed = parseDataJs(b64dec(j.content));
+      if (!parsed || !parsed.site) throw new Error("الملف لا يحتوي بيانات صالحة.");
+      state = parsed; saveState(); render();
+      logReset("تم جلب البيانات من GitHub ✔");
+      log("sha: " + String(j.sha).slice(0, 7) + " · عدد الصفوف: " + (parsed.classes || []).length, "ok");
+      toast("تم جلب البيانات من GitHub", "good");
+    } catch (err) {
+      log("✖ " + err.message, "err");
+      toast("فشل الجلب", "bad");
+    } finally { btn.disabled = false; btn.textContent = old; }
+  }
+
+  async function doPublish(btn) {
+    var c = readCfg();
+    if (!c.owner || !c.repo || !c.token) { toast("أكمل بيانات المستودع والتوكن", "bad"); return; }
+    var old = btn.textContent; btn.disabled = true; btn.textContent = "…جارٍ النشر";
+    logReset("بدء النشر إلى " + c.owner + "/" + c.repo + " …");
+    try {
+      state.site.lastUpdated = new Date().toISOString().slice(0, 10);
+      var url = "https://api.github.com/repos/" + c.owner + "/" + c.repo + "/contents/" + encodeURI(c.path);
+      var sha = null;
+      var g = await fetch(url + "?ref=" + encodeURIComponent(c.branch), { headers: ghHeaders(c), cache: "no-store" });
+      if (g.ok) { var gj = await g.json(); sha = gj.sha; log("وُجد ملف سابق — سيتم تحديثه.", "info"); }
+      else if (g.status === 404) { log("لا يوجد ملف سابق — سيتم إنشاؤه.", "info"); }
+      else throw new Error(describe(g.status));
+
+      var body = {
+        message: "تحديث بوابة الطلاب — " + new Date().toISOString().slice(0, 16).replace("T", " "),
+        content: b64enc(serialize(state)),
+        branch: c.branch
+      };
+      if (sha) body.sha = sha;
+
+      var p = await fetch(url, { method: "PUT", headers: ghHeaders(c), body: JSON.stringify(body) });
+      if (!p.ok) throw new Error(describe(p.status));
+      var pj = await p.json();
+      log("تم النشر بنجاح ✔ (commit: " + String(pj.commit && pj.commit.sha).slice(0, 7) + ")", "ok");
+      log("سيظهر التحديث في موقعك خلال 30–60 ثانية.", "info");
+      saveState();
+      toast("تم النشر بنجاح", "good");
+    } catch (err) {
+      log("✖ " + err.message, "err");
+      toast("فشل النشر", "bad");
+    } finally { btn.disabled = false; btn.textContent = old; }
+  }
+
+  function doPreview() {
+    try {
+      localStorage.setItem(PREVIEW_KEY, JSON.stringify({ ts: Date.now(), data: state }));
+      window.open("index.html", "_blank");
+    } catch (e) { toast("تعذّرت المعاينة", "bad"); }
+  }
+
+  function doExport() {
+    var blob = new Blob([serialize(state)], { type: "text/javascript;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "data.js";
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+    toast("تم تصدير data.js — ارفعه إلى المستودع", "good");
+  }
+
+  function doImport() {
+    var inp = document.createElement("input");
+    inp.type = "file";
+    inp.accept = ".js,.json,text/javascript,application/json";
+    inp.addEventListener("change", function () {
+      var f = inp.files && inp.files[0];
+      if (!f) return;
+      var fr = new FileReader();
+      fr.onload = function () {
+        try {
+          var parsed = parseDataJs(String(fr.result));
+          if (!parsed || !parsed.site) throw new Error("ملف غير صالح");
+          state = parsed; saveState(); render(); toast("تم استيراد الملف", "good");
+        } catch (e) { toast("تعذّر قراءة الملف", "bad"); }
+      };
+      fr.readAsText(f, "utf-8");
+    });
+    inp.click();
+  }
+
+  /* ============ تشغيل ============ */
+  render();
+})();
+</script>
+</body>
+</html>
