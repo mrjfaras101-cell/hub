@@ -9,8 +9,8 @@ window.SITE_DATA = {
     "year": "2026 / 2027",
     "email": "",
     "lastUpdated": "2026-10-27",
-    "accent": "#4f46e5",
-    "accent2": "#9e94eb"
+    "accent": "#0d9488",
+    "accent2": "#2dd4bf"
   },
   "instructions": [
     {
