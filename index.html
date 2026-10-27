@@ -271,6 +271,9 @@
   }
   .card:hover .go{opacity:1; gap:9px}
   .card.disabled{opacity:.55; pointer-events:none}
+  .card.dl .go{color:var(--tc)}
+  .card.busy{opacity:.75; transform:none !important}
+  .card.dl .ci{background:color-mix(in srgb, var(--tc) 15%, var(--surface))}
 
   /* ---------- Tools ---------- */
   .tools{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:11px}
@@ -431,7 +434,7 @@
 
 <script src="data.js"></script>
 <script>
-(function () {
+function startApp() {
   "use strict";
 
   var FALLBACK = {
@@ -472,6 +475,35 @@
       return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
     });
   }
+  var FILE_RE = /\.(xlsx?|xlsm|docx?|pptx?|pdf|zip|rar|7z|csv|txt|py|ipynb|png|jpe?g|gif|mp3|mp4)(\?|#|$)/i;
+
+  /* يحوّل روابط GitHub (صفحة الملف) إلى رابط تنزيل مباشر */
+  function toDirect(u) {
+    if (!u) return u;
+    var m = u.match(/^https?:\/\/github\.com\/([^\/]+)\/([^\/]+)\/(?:blob|raw)\/([^\/]+)\/(.+?)(?:[?#].*)?$/i);
+    if (m) return "https://raw.githubusercontent.com/" + m[1] + "/" + m[2] + "/" + m[3] + "/" + m[4];
+    return u;
+  }
+  function fileNameFrom(u) {
+    try {
+      var seg = u.split("#")[0].split("?")[0].split("/").pop();
+      return decodeURIComponent(seg || "file");
+    } catch (e) { return "file"; }
+  }
+  function downloadFile(url, name) {
+    if (location.protocol === "file:") { window.open(url, "_blank"); return; }
+    fetch(url, { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.blob(); })
+      .then(function (blob) {
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = name || fileNameFrom(url);
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 8000);
+      })
+      .catch(function () { window.open(url, "_blank"); });
+  }
+
   function safeUrl(u) {
     var s = String(u || "").trim();
     if (!s) return "";
@@ -599,7 +631,7 @@
     var tools = DATA.tools || [];
     if (!tools.length) return "";
     var items = tools.map(function (t) {
-      var u = safeUrl(t.url);
+      var u = toDirect(safeUrl(t.url));
       if (!u) return "";
       return '<a class="tool" href="' + esc(u) + '" target="_blank" rel="noopener">' +
         '<span class="ti">' + esc(t.icon || "🔗") + "</span>" +
@@ -751,20 +783,46 @@
     }
 
     grid.innerHTML = cards.map(function (x, idx) {
-      var u = safeUrl(x.url);
+      var raw = safeUrl(x.url);
+      var u = toDirect(raw);
       var big = (!f && idx === 0 && cards.length >= 3) ? " big" : "";
+      var isFile = !!u && (x.download === true || FILE_RE.test(u) || FILE_RE.test(raw));
       var tag = x.tag ? '<span class="tag">' + esc(x.tag) + "</span>" : "";
+      var label = isFile ? "⬇ تحميل الملف" : "افتح الرابط ←";
       var inner =
         '<div class="card-top">' +
-          '<div class="ci">' + esc(x.icon || "🔗") + "</div>" +
+          '<div class="ci">' + esc(x.icon || (isFile ? "📄" : "🔗")) + "</div>" +
           "<h4>" + esc(x.title) + "</h4>" +
         "</div>" +
         (x.desc ? "<p>" + esc(x.desc) + "</p>" : "") +
-        '<div class="card-foot">' + tag + '<span class="go">افتح الرابط ←</span></div>';
-      return u
-        ? '<a class="card' + big + '" href="' + esc(u) + '" target="_blank" rel="noopener">' + inner + "</a>"
-        : '<div class="card disabled' + big + '">' + inner + "</div>";
+        '<div class="card-foot">' + tag + '<span class="go">' + label + "</span></div>";
+      if (!u) return '<div class="card disabled' + big + '">' + inner + "</div>";
+      if (isFile) {
+        return '<a class="card dl' + big + '" href="' + esc(u) + '" data-dl="1" data-name="' +
+          esc(fileNameFrom(u)) + '" download>' + inner + "</a>";
+      }
+      return '<a class="card' + big + '" href="' + esc(u) + '" target="_blank" rel="noopener">' + inner + "</a>";
     }).join("");
+
+    if (!grid._dlBound) {
+      grid._dlBound = true;
+      grid.addEventListener("click", function (e) {
+        var a = e.target.closest ? e.target.closest("[data-dl]") : null;
+        if (!a) return;
+        e.preventDefault();
+        var go = a.querySelector(".go");
+        var oldTxt = go ? go.textContent : "";
+        if (go) go.textContent = "…جارٍ التنزيل";
+        a.classList.add("busy");
+        setTimeout(function () {
+          downloadFile(a.getAttribute("href"), a.getAttribute("data-name"));
+          setTimeout(function () {
+            if (go) go.textContent = oldTxt;
+            a.classList.remove("busy");
+          }, 1800);
+        }, 60);
+      });
+    }
   }
 
   /* ---------------- Scroll effects ---------------- */
@@ -785,6 +843,32 @@
   renderPanel();
   renderInstructions();
   initScroll();
+}
+
+/* ---------- تحميل أحدث نسخة من data.js (بدون كاش) ثم تشغيل الصفحة ---------- */
+(function () {
+  var booted = false;
+  function boot() { if (booted) return; booted = true; try { startApp(); } catch (e) { console.error(e); } }
+
+  if (location.protocol === "http:" || location.protocol === "https:") {
+    var done = false;
+    fetch("data.js?_=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (txt) {
+        if (txt) {
+          try {
+            var sandbox = {};
+            new Function("window", txt)(sandbox);
+            if (sandbox.SITE_DATA && sandbox.SITE_DATA.site) window.SITE_DATA = sandbox.SITE_DATA;
+          } catch (e) { /* نبقى على النسخة المحمّلة عبر script */ }
+        }
+        done = true; boot();
+      })
+      .catch(function () { done = true; boot(); });
+    setTimeout(function () { if (!done) boot(); }, 2500);
+  } else {
+    boot(); /* فتح محلي file:// */
+  }
 })();
 </script>
 </body>
