@@ -507,8 +507,30 @@ function startApp() {
   function safeUrl(u) {
     var s = String(u || "").trim();
     if (!s) return "";
-    if (/^(https?:|mailto:|\/|\.\/|#)/i.test(s)) return s;
-    return "";
+    if (/^mailto:/i.test(s)) return s;
+    if (/^(\/|\.\/|#)/.test(s)) return s;
+    if (!/^https?:/i.test(s)) return "";
+    try {                                  /* يرفض "https://" و "https:// " بلا نطاق */
+      var o = new URL(s);
+      if (!o.hostname || o.hostname.indexOf(".") === -1) return "";
+      return s;
+    } catch (e) { return ""; }
+  }
+
+  /* ---------- الجدولة: إظهار/إخفاء حسب التاريخ ---------- */
+  function todayISO() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+  function itemLive(x) {
+    if (!x) return false;
+    if (x.hidden === true) return false;
+    var t = todayISO();
+    var from = String(x.from || "").trim();
+    var until = String(x.until || "").trim();
+    if (from && t < from) return false;       /* لم يحن موعده */
+    if (until && t > until) return false;     /* انتهى موعده */
+    return true;
   }
   function groupName(g) {
     return (g && typeof g === "object") ? String(g.name || "") : String(g == null ? "" : g);
@@ -574,11 +596,12 @@ function startApp() {
     $("#metaLine").style.display = meta.length ? "" : "none";
 
     var cards = 0;
-    (DATA.classes || []).forEach(function (c) { cards += (c.cards || []).length; });
+    (DATA.classes || []).forEach(function (c) { cards += (c.cards || []).filter(itemLive).length; });
     var st = [];
     st.push('<div class="stat"><b>' + (DATA.classes || []).length + "</b><small>صفوف دراسية</small></div>");
     st.push('<div class="stat"><b>' + cards + "</b><small>صفحة وورقة عمل</small></div>");
-    st.push('<div class="stat"><b>' + (DATA.tools || []).length + "</b><small>أدوات تفاعلية</small></div>");
+    var liveTools = (DATA.tools || []).filter(itemLive).filter(function (t) { return !!safeUrl(t.url); }).length;
+    st.push('<div class="stat"><b>' + liveTools + "</b><small>أدوات تفاعلية</small></div>");
     $("#stats").innerHTML = st.join("");
 
     var f = $("#footTeacher");
@@ -628,7 +651,7 @@ function startApp() {
 
   /* ---------------- Tools ---------------- */
   function toolsHtml() {
-    var tools = DATA.tools || [];
+    var tools = (DATA.tools || []).filter(itemLive);
     if (!tools.length) return "";
     var items = tools.map(function (t) {
       var u = toDirect(safeUrl(t.url));
@@ -691,7 +714,7 @@ function startApp() {
     var color = c.color || ACCENT;
     if (!state.group && (c.groups || []).length) state.group = groupName(c.groups[0]).trim();
 
-    var totalCards = (c.cards || []).length;
+    var totalCards = (c.cards || []).filter(itemLive).length;
 
     panel.innerHTML =
       '<section class="section" style="--tc:' + esc(color) + '">' +
@@ -769,7 +792,7 @@ function startApp() {
     var c = (DATA.classes || [])[state.active];
     if (!c) return;
     var f = String(filter || "").trim().toLowerCase();
-    var cards = (c.cards || []).filter(function (x) {
+    var cards = (c.cards || []).filter(itemLive).filter(function (x) {
       if (!f) return true;
       return (String(x.title) + " " + String(x.desc) + " " + String(x.tag)).toLowerCase().indexOf(f) > -1;
     });
