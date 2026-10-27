@@ -58,6 +58,12 @@ window.SITE_DATA = {
       "title": "www.programiz.com",
       "url": "https://www.programiz.com/python-programming/online-compiler/",
       "note": ""
+    },
+    {
+      "icon": "🔗",
+      "title": "أداة جديدة",
+      "url": "https://www.youtube.com/watch?v=lLAW7Buy27o",
+      "note": "فيديو تعليمي عن جملة الدوران for بلغة البايثون"
     }
   ],
   "classes": [
@@ -120,13 +126,6 @@ window.SITE_DATA = {
           "desc": "إقرأ بعناية المطلوب من كل سؤال ثم أجب عن التحدي الذي يلي السؤال مستعيناً بالحل المعروض في داخل المهمة.",
           "tag": "مهمة",
           "download": true
-        },
-        {
-          "icon": "🔗",
-          "title": "فيديو تعليمي حول جمل الدوران for",
-          "url": "https://www.youtube.com/watch?v=lLAW7Buy27o",
-          "desc": "",
-          "tag": "مهمة"
         },
         {
           "icon": "🔗",
