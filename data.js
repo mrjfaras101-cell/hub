@@ -52,6 +52,12 @@ window.SITE_DATA = {
       "title": "w3schools.com",
       "url": "https://www.w3schools.com/excel/index.php",
       "note": "موقع تعليمي إكسل"
+    },
+    {
+      "icon": "",
+      "title": "www.programiz.com",
+      "url": "https://www.programiz.com/python-programming/online-compiler/",
+      "note": ""
     }
   ],
   "classes": [
