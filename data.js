@@ -8,7 +8,7 @@ window.SITE_DATA = {
     "tagline": "أوراق العمل، المحاكيات التفاعلية، وروابط الأدوات، وتسليم المهام — كل ما تحتاجه لصفّك في مكان واحد.",
     "year": "2026 / 2027",
     "email": "",
-    "lastUpdated": "2026-10-26",
+    "lastUpdated": "2026-10-27",
     "accent": "#d97706",
     "accent2": "#fbbf24"
   },
@@ -70,6 +70,13 @@ window.SITE_DATA = {
           "url": "https://mrjfaras101-cell.github.io/g10ws/",
           "desc": "الحقيبة الكاملة، ونسخة الطالب بدون حلول، وأوراق الدروس 1–4 بصيغة Word.",
           "tag": "أوراق عمل"
+        },
+        {
+          "icon": "🔗",
+          "title": "مهام الإكسل - تحميل الملف على جهازك",
+          "url": "https://github.com/mrjfaras101-cell/hub/blob/main/%D8%AA%D9%85%D8%B1%D9%8A%D9%86_%D8%B9%D9%85%D9%84%D9%8A_%D8%AF%D9%88%D8%A7%D9%84_%D8%A7%D9%84%D8%A5%D9%83%D8%B3%D9%84_%D8%A7%D9%84%D8%B5%D9%81_%D8%A7%D9%84%D8%B9%D8%A7%D8%B4%D8%B1.xlsx",
+          "desc": "ملف عمل الإكسل الخاص بالمهام",
+          "tag": "مهمة"
         }
       ]
     },
