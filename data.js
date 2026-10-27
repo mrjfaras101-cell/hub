@@ -1,16 +1,16 @@
 /* ملف بيانات البوابة — يُولَّد من لوحة المعلم */
 window.SITE_DATA = {
   "site": {
-    "title": "الأستاذ باسم النعيمي",
-    "teacher": "المعلم باسم النعيمي",
+    "title": " باسم النعيمي",
+    "teacher": "باسم النعيمي",
     "subject": "المهارات الرقمية - الصف العاشر الأساسي - الأول الثانوي الأكاديمي",
     "school": "مدرسة صويلح الثانوية للبنين",
     "tagline": "أوراق العمل، المحاكيات التفاعلية، وروابط الأدوات، وتسليم المهام — كل ما تحتاجه لصفّك في مكان واحد.",
     "year": "2026 / 2027",
     "email": "",
     "lastUpdated": "2026-10-27",
-    "accent": "#d97706",
-    "accent2": "#fbbf24"
+    "accent": "#4f46e5",
+    "accent2": "#9e94eb"
   },
   "instructions": [
     {
@@ -46,6 +46,12 @@ window.SITE_DATA = {
       "title": "لوحة Padlet",
       "url": "https://padlet.com/mrjfaras101/2026-2027-vjo1n9wox4mfrb7d",
       "note": "الأنشطة والمشاركات الصفية 2026/2027"
+    },
+    {
+      "icon": "🔗",
+      "title": "https://www.w3schools.com/excel/index.php",
+      "url": "https://",
+      "note": "موقع تعليمي إكسل"
     }
   ],
   "classes": [
