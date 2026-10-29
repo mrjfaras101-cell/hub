@@ -124,6 +124,14 @@ window.SITE_DATA = {
           "desc": "ثلاث أوراق عمل مع الحلول، مساحة كتابة كود، ومحاكي تنفيذ البرنامج.",
           "tag": "أوراق عمل",
           "type": "task"
+        },
+        {
+          "icon": "🔗",
+          "title": "أوراق عمل بايثون.",
+          "url": "https://raw.githubusercontent.com/mrjfaras101-cell/hub/main/python.pdf",
+          "desc": "",
+          "tag": "مهمة",
+          "download": true
         }
       ]
     }
