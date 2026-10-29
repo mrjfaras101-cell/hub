@@ -139,6 +139,13 @@ window.SITE_DATA = {
           "url": "https://",
           "desc": "",
           "tag": "مهمة"
+        },
+        {
+          "icon": "🔗",
+          "title": "ورقة العمل 1 الجزء الثاني",
+          "url": "https://youtu.be/o5SKbrOppcs?si=rJZ9IrDleEbqUeNe",
+          "desc": "",
+          "tag": "مهمة"
         }
       ]
     }
