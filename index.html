@@ -274,6 +274,55 @@
   .card.dl .go{color:var(--tc)}
   .card.busy{opacity:.75; transform:none !important}
   .card.dl .ci{background:color-mix(in srgb, var(--tc) 15%, var(--surface))}
+  .card.yt .ci{background:linear-gradient(145deg,#ef4444,#f97316);border-color:transparent;color:#fff}
+  .card.yt .go,.tool.yt .arw{color:#dc2626}
+  .tool.yt .ti{background:linear-gradient(145deg,#ef4444,#f97316);border-color:transparent;color:#fff}
+
+  /* ---------- فيديوهات تعليمية ---------- */
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .vcard{position:relative;display:flex;flex-direction:column;background:var(--surface);
+    border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+    transition:transform .4s var(--spring),box-shadow .4s var(--spring),border-color .3s;cursor:pointer}
+  .vcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,#ef4444 35%,var(--line))}
+  .vthumb{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#1f2937,#111827);overflow:hidden}
+  .vthumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--spring)}
+  .vcard:hover .vthumb img{transform:scale(1.06)}
+  .vplay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.18);transition:.3s}
+  .vcard:hover .vplay{background:rgba(0,0,0,.05)}
+  .vplay span{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:19px;
+    background:rgba(220,38,38,.94);box-shadow:0 10px 30px -8px rgba(220,38,38,.8);padding-inline-start:4px}
+  .vbody{padding:13px 15px 15px;display:flex;flex-direction:column;gap:5px;flex:1}
+  .vbody h4{margin:0;font-size:14.6px;line-height:1.45;letter-spacing:-.2px}
+  .vbody p{margin:0;font-size:12.6px;color:var(--muted);line-height:1.65}
+  .vfoot{margin-top:auto;padding-top:8px;display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;color:#dc2626}
+
+  /* ---------- شرائح تصفية التصنيفات ---------- */
+  .filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+  .fchip{font-size:12.4px;font-weight:800;padding:7px 15px;border-radius:999px;cursor:pointer;
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);transition:.3s var(--spring)}
+  .fchip:hover{color:var(--ink);border-color:var(--line-strong)}
+  .fchip.on{background:color-mix(in srgb,var(--tc,var(--accent)) 13%,var(--surface));
+    border-color:color-mix(in srgb,var(--tc,var(--accent)) 45%,var(--line));
+    color:color-mix(in srgb,var(--tc,var(--accent)) 85%,#000)}
+  html[data-theme="dark"] .fchip.on{color:#fff}
+  .fchip .n{opacity:.65;margin-inline-start:5px;font-size:11px}
+
+  /* نافذة الفيديو */
+  .vmodal{position:fixed;inset:0;z-index:120;display:none}
+  .vmodal.open{display:block}
+  .vback{position:absolute;inset:0;background:rgba(6,10,20,.72);backdrop-filter:blur(6px)}
+  .vshell{position:relative;max-width:min(960px,94vw);margin:5vh auto 0;background:var(--surface);
+    border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 40px 90px -40px #000;
+    animation:fadeUp .35s var(--spring) both}
+  .vhead{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .vhead strong{font-size:14.5px;letter-spacing:-.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vopen{margin-inline-start:auto;font-size:12.5px;font-weight:800;color:var(--accent)}
+  .vclose{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);
+    cursor:pointer;font-size:14px;font-weight:900;color:var(--ink);flex:0 0 auto}
+  .vclose:hover{background:var(--surface-3)}
+  .vframe{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+  .vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  @media(max-width:600px){ .vshell{margin-top:2vh} .vhead{padding:10px 12px} }
 
   /* ---------- Tools ---------- */
   .tools{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:11px}
@@ -430,6 +479,18 @@
   </div>
 </footer>
 
+<div class="vmodal" id="vmodal" aria-hidden="true">
+  <div class="vback" data-close="1"></div>
+  <div class="vshell" role="dialog" aria-modal="true" aria-label="مشغل الفيديو">
+    <div class="vhead">
+      <strong id="vtitle">فيديو</strong>
+      <a class="vopen" id="vopen" href="#" target="_blank" rel="noopener">فتح على يوتيوب ↗</a>
+      <button class="vclose" id="vclose" type="button" aria-label="إغلاق">✕</button>
+    </div>
+    <div class="vframe"><iframe id="vframe" src="" title="مشغل يوتيوب" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
+  </div>
+</div>
+
 <noscript><div class="wrap"><div class="notice">هذه الصفحة تحتاج تفعيل JavaScript في المتصفح.</div></div></noscript>
 
 <script src="data.js"></script>
@@ -504,13 +565,33 @@ function startApp() {
       .catch(function () { window.open(url, "_blank"); });
   }
 
+  var DOMAIN_ONLY = /^(?:[\w-]+\.)+[a-z]{2,24}(?::\d+)?(?:[/?#]\S*)?$/i;
+  function normalizeUrl(raw) {
+    var s = String(raw == null ? "" : raw).replace(/&amp;/g, "&").trim();
+    if (!s) return "";
+    var m = s.match(/https?:\/\/[^\s"'<>\u0600-\u06FF]+/i);
+    if (!m) {
+      var cand = s.replace(/^[\s"'«»()\[\]]+|[\s"'«»()\[\].,;:!?،؛]+$/g, "");
+      if (DOMAIN_ONLY.test(cand)) m = [cand];
+    }
+    if (!m) return s;
+    var out = String(m[0]).replace(/[.,;:!?)\]]+$/g, "");
+    if (!/^https?:\/\//i.test(out)) out = "https://" + out;
+    return out;
+  }
+  function ytId(u) {
+    var m = String(u || "").match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/i);
+    return m ? m[1] : "";
+  }
+
   function safeUrl(u) {
     var s = String(u || "").trim();
     if (!s) return "";
     if (/^mailto:/i.test(s)) return s;
     if (/^(\/|\.\/|#)/.test(s)) return s;
+    s = normalizeUrl(s);
     if (!/^https?:/i.test(s)) return "";
-    try {                                  /* يرفض "https://" و "https:// " بلا نطاق */
+    try {
       var o = new URL(s);
       if (!o.hostname || o.hostname.indexOf(".") === -1) return "";
       return s;
@@ -537,6 +618,38 @@ function startApp() {
   }
   function mix(hex, pct) { /* يخفّف اللون مع الخلفية */
     return "color-mix(in srgb, " + hex + " " + pct + "%, var(--surface))";
+  }
+
+  /* ---------------- Video modal ---------------- */
+  function openVideo(id, title, url) {
+    var m = document.getElementById("vmodal");
+    if (!m || !id) return;
+    document.getElementById("vtitle").textContent = title || "فيديو";
+    document.getElementById("vframe").src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+    var op = document.getElementById("vopen");
+    if (op) op.href = url || ("https://www.youtube.com/watch?v=" + id);
+    m.classList.add("open");
+    m.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+  function closeVideo() {
+    var m = document.getElementById("vmodal");
+    if (!m) return;
+    m.classList.remove("open");
+    m.setAttribute("aria-hidden", "true");
+    var fr = document.getElementById("vframe");
+    if (fr) { fr.removeAttribute("src"); fr.src = "about:blank"; }
+    document.body.style.overflow = "";
+  }
+  function initVideo() {
+    var m = document.getElementById("vmodal");
+    if (!m) return;
+    m.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("[data-close]")) closeVideo();
+      var c = e.target.closest && e.target.closest("#vclose");
+      if (c) closeVideo();
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeVideo(); });
   }
 
   /* ---------------- Theme ---------------- */
@@ -602,6 +715,8 @@ function startApp() {
     st.push('<div class="stat"><b>' + cards + "</b><small>صفحة وورقة عمل</small></div>");
     var liveTools = (DATA.tools || []).filter(itemLive).filter(function (t) { return !!safeUrl(t.url); }).length;
     st.push('<div class="stat"><b>' + liveTools + "</b><small>أدوات تفاعلية</small></div>");
+    var vids = (DATA.videos || []).filter(itemLive).filter(function (v) { return !!safeUrl(v.url); }).length;
+    if (vids) st.push('<div class="stat"><b>' + vids + "</b><small>فيديوهات تعليمية</small></div>");
     $("#stats").innerHTML = st.join("");
 
     var f = $("#footTeacher");
@@ -628,6 +743,12 @@ function startApp() {
   }
 
   /* ---------------- Tabs ---------------- */
+  function setHash(c) {
+    try {
+      var h = "#" + (c && c.id ? c.id : "");
+      if (location.hash !== h) history.replaceState(null, "", h || location.pathname);
+    } catch (e) {}
+  }
   function renderTabs() {
     var bar = $("#segmented");
     var list = DATA.classes || [];
@@ -640,8 +761,10 @@ function startApp() {
       b.setAttribute("aria-selected", i === state.active ? "true" : "false");
       b.style.setProperty("--tc", c.color || ACCENT);
       b.innerHTML = '<span class="sic">' + esc(c.icon || "📘") + "</span><span>" + esc(c.name) + "</span>";
+      b.title = "رابط مباشر: " + location.origin + location.pathname + "#" + c.id;
       b.addEventListener("click", function () {
-        state.active = i; state.group = null;
+        state.active = i; state.group = null; state.typeFilter = "";
+        setHash(c);
         renderTabs(); renderPanel();
       });
       bar.appendChild(b);
@@ -656,6 +779,14 @@ function startApp() {
     var items = tools.map(function (t) {
       var u = toDirect(safeUrl(t.url));
       if (!u) return "";
+      var vid = ytId(u);
+      if (vid) {
+        return '<a class="tool yt" href="' + esc(u) + '" target="_blank" rel="noopener" data-yt="' + esc(vid) + '"' +
+          ' data-yt-title="' + esc(t.title) + '">' +
+          '<span class="ti">' + esc(t.icon || "▶️") + "</span>" +
+          "<span><strong>" + esc(t.title) + "</strong><small>" + esc(t.note || "فيديو — يشغَّل داخل الصفحة") + "</small></span>" +
+          '<span class="arw">▶</span></a>';
+      }
       return '<a class="tool" href="' + esc(u) + '" target="_blank" rel="noopener">' +
         '<span class="ti">' + esc(t.icon || "🔗") + "</span>" +
         "<span><strong>" + esc(t.title) + "</strong><small>" + esc(t.note || "") + "</small></span>" +
@@ -667,6 +798,37 @@ function startApp() {
       '<span class="count">' + tools.length + "</span>" +
       '<span class="spacer"></span></div>' +
       '<div class="panel"><div class="tools">' + items + "</div></div></section>";
+  }
+
+  /* ---------------- Educational videos ---------------- */
+  function videosFor(c) {
+    return (DATA.videos || []).filter(itemLive).filter(function (v) {
+      var cid = String(v.classId || "").trim();
+      return !cid || cid === String(c.id);
+    }).filter(function (v) { return !!safeUrl(v.url); });
+  }
+  function videosHtml(c) {
+    var list = videosFor(c);
+    if (!list.length) return "";
+    var cards = list.map(function (v) {
+      var u = safeUrl(v.url);
+      var id = ytId(u);
+      var thumb = id
+        ? '<img src="https://img.youtube.com/vi/' + id + '/mqdefault.jpg" alt="" loading="lazy" ' +
+          'onerror="this.style.display=\'none\'">'
+        : "";
+      return '<article class="vcard" data-yt="' + esc(id || "") + '" data-yt-title="' + esc(v.title) + '" ' +
+        'data-href="' + esc(u) + '" tabindex="0" role="button" aria-label="تشغيل ' + esc(v.title) + '">' +
+        '<div class="vthumb">' + thumb + '<div class="vplay"><span>▶</span></div></div>' +
+        '<div class="vbody"><h4>' + esc(v.title) + "</h4>" +
+        (v.desc ? "<p>" + esc(v.desc) + "</p>" : "") +
+        '<div class="vfoot"><span>▶ مشاهدة داخل الصفحة</span></div>' +
+        "</div></article>";
+    }).join("");
+    return '<section class="section" id="videosBlock" style="--tc:' + esc(c.color || ACCENT) + '">' +
+      '<div class="sec-head"><h2>🎬 فيديوهات تعليمية</h2>' +
+      '<span class="count">' + list.length + "</span></div>" +
+      '<div class="vgrid">' + cards + "</div></section>";
   }
 
   /* ---------------- Submit ---------------- */
@@ -724,21 +886,25 @@ function startApp() {
         "</div>" +
       "</section>" +
 
+      videosHtml(c) +
+
       '<section class="section" style="--tc:' + esc(color) + '">' +
         '<div class="sec-head">' +
           "<h2>🔗 روابط " + esc(c.name) + "</h2>" +
-          '<span class="count">' + totalCards + "</span>" +
+          '<span class="count" id="cardsCount">' + totalCards + "</span>" +
           '<span class="spacer"></span>' +
-          '<input type="search" id="q" placeholder="ابحث عن رابط أو مهمة…" aria-label="بحث" ' +
+          '<input type="search" id="q" placeholder="ابحث عن مهمة أو رابط…  ( / )" aria-label="بحث" ' +
             'style="font-family:inherit;font-size:13px;padding:9px 15px;min-width:210px;border-radius:12px;' +
             'border:1px solid var(--line);background:var(--surface);color:var(--ink);outline:none">' +
         "</div>" +
+        '<div class="filters" id="typeFilters"></div>' +
         '<div class="bento" id="cardsGrid"></div>' +
       "</section>" +
 
       '<div style="--tc:' + esc(color) + '">' + toolsHtml() + "</div>" +
       '<div style="--tc:' + esc(color) + '">' + submitHtml(c) + "</div>";
 
+    renderTypeFilters(c);
     renderCards("");
 
     var q = $("#q");
@@ -786,13 +952,44 @@ function startApp() {
   }
 
   /* ---------------- Cards ---------------- */
+  function cardType(cd) { return String(cd.tag || "").trim() || "عام"; }
+  function renderTypeFilters(c) {
+    var host = document.getElementById("typeFilters");
+    if (!host) return;
+    var live = (c.cards || []).filter(itemLive);
+    var types = [];
+    live.forEach(function (cd) {
+      var t = cardType(cd);
+      if (types.indexOf(t) === -1) types.push(t);
+    });
+    if (types.length < 2) { host.innerHTML = ""; host.style.display = "none"; return; }
+    host.style.display = "";
+    var cur = state.typeFilter || "";
+    var html = '<button type="button" class="fchip' + (cur ? "" : " on") + '" data-ft="">الكل' +
+      '<span class="n">' + live.length + "</span></button>";
+    types.forEach(function (t) {
+      var n = live.filter(function (cd) { return cardType(cd) === t; }).length;
+      html += '<button type="button" class="fchip' + (cur === t ? " on" : "") + '" data-ft="' + esc(t) + '">' +
+        esc(t) + '<span class="n">' + n + "</span></button>";
+    });
+    host.innerHTML = html;
+    Array.prototype.forEach.call(host.querySelectorAll("[data-ft]"), function (b) {
+      b.addEventListener("click", function () {
+        state.typeFilter = b.getAttribute("data-ft") || "";
+        renderPanel();
+      });
+    });
+  }
+
   function renderCards(filter) {
     var grid = $("#cardsGrid");
     if (!grid) return;
     var c = (DATA.classes || [])[state.active];
     if (!c) return;
     var f = String(filter || "").trim().toLowerCase();
+    var tf = state.typeFilter || "";
     var cards = (c.cards || []).filter(itemLive).filter(function (x) {
+      if (tf && cardType(x) !== tf) return false;
       if (!f) return true;
       return (String(x.title) + " " + String(x.desc) + " " + String(x.tag)).toLowerCase().indexOf(f) > -1;
     });
@@ -809,9 +1006,13 @@ function startApp() {
       var raw = safeUrl(x.url);
       var u = toDirect(raw);
       var big = (!f && idx === 0 && cards.length >= 3) ? " big" : "";
-      var isFile = !!u && (x.download === true || FILE_RE.test(u) || FILE_RE.test(raw));
-      var tag = x.tag ? '<span class="tag">' + esc(x.tag) + "</span>" : "";
-      var label = isFile ? "⬇ تحميل الملف" : "افتح الرابط ←";
+      var vid = ytId(u);
+      var isFile = !!u && !vid && (x.download === true || FILE_RE.test(u) || FILE_RE.test(raw));
+      var TYPE_ICONS = {"واجب منزلي":"📝","مهمة":"🎯","فيديو تعليمي":"🎬","ورقة عمل":"📄",
+                        "رابط مفيد":"🔗","اختبار قصير":"🧪","مشروع":"🧩","عام":"•"};
+      var tagTxt = x.tag ? ((TYPE_ICONS[x.tag] || "🏷️") + " " + x.tag) : "";
+      var tag = tagTxt ? '<span class="tag">' + esc(tagTxt) + "</span>" : "";
+      var label = vid ? "▶ شاهد الفيديو" : (isFile ? "⬇ تحميل الملف" : "افتح الرابط ←");
       var inner =
         '<div class="card-top">' +
           '<div class="ci">' + esc(x.icon || (isFile ? "📄" : "🔗")) + "</div>" +
@@ -820,6 +1021,10 @@ function startApp() {
         (x.desc ? "<p>" + esc(x.desc) + "</p>" : "") +
         '<div class="card-foot">' + tag + '<span class="go">' + label + "</span></div>";
       if (!u) return '<div class="card disabled' + big + '">' + inner + "</div>";
+      if (vid) {
+        return '<a class="card yt' + big + '" href="' + esc(u) + '" target="_blank" rel="noopener" data-yt="' + esc(vid) +
+          '" data-yt-title="' + esc(x.title) + '">' + inner + "</a>";
+      }
       if (isFile) {
         return '<a class="card dl' + big + '" href="' + esc(u) + '" data-dl="1" data-name="' +
           esc(fileNameFrom(u)) + '" download>' + inner + "</a>";
@@ -849,6 +1054,16 @@ function startApp() {
   }
 
   /* ---------------- Scroll effects ---------------- */
+  function initShortcuts() {
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+      var tag = (e.target && e.target.tagName) || "";
+      if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+      var q = document.getElementById("q");
+      if (q) { e.preventDefault(); q.focus(); q.select && q.select(); }
+    });
+  }
+
   function initScroll() {
     var nav = $("#nav");
     var onScroll = function () {
@@ -859,13 +1074,49 @@ function startApp() {
     onScroll();
   }
 
+  function initYouTubeCards() {
+    function activate(el) {
+      if (!el) return;
+      var id = el.getAttribute("data-yt");
+      var href = el.getAttribute("href") || el.getAttribute("data-href") || "";
+      if (!id) { if (href) window.open(href, "_blank", "noopener"); return; }
+      openVideo(id, el.getAttribute("data-yt-title"), href);
+    }
+    document.addEventListener("click", function (e) {
+      var el = e.target.closest && e.target.closest("[data-yt]");
+      if (!el) return;
+      e.preventDefault();
+      activate(el);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      var el = e.target.closest && e.target.closest(".vcard[data-yt]");
+      if (!el) return;
+      e.preventDefault();
+      activate(el);
+    });
+  }
+
   /* ---------------- boot ---------------- */
+  /* فتح الصف المطلوب من الرابط (#g10) */
+  (function () {
+    var h = String(location.hash || "").replace("#", "").trim();
+    if (!h) return;
+    var list = DATA.classes || [];
+    for (var i = 0; i < list.length; i++) {
+      if (String(list[i].id) === h) { state.active = i; break; }
+    }
+  })();
+
   initTheme();
+  initVideo();
+  initYouTubeCards();
   renderHeader();
   renderTabs();
   renderPanel();
   renderInstructions();
   initScroll();
+  initShortcuts();
 }
 
 /* ---------- تحميل أحدث نسخة من data.js (بدون كاش) ثم تشغيل الصفحة ---------- */

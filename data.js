@@ -1,16 +1,28 @@
-/* ملف بيانات البوابة — يُولَّد من لوحة المعلم */
+/* ===================================================================
+   ملف بيانات الموقع — يُعدَّل من لوحة المعلم (admin.html) وليس يدوياً
+   يُرفع هذا الملف مع index.html إلى مستودع GitHub
+   =================================================================== */
 window.SITE_DATA = {
   "site": {
-    "title": "بوابة المهارات الرقمية",
-    "teacher": "المهارات الرقمية",
+    "title": "بوابة باسم النعيمي",
+    "teacher": "باسم النعيمي",
     "subject": "المهارات الرقمية - الصف العاشر الأساسي - الأول الثانوي الأكاديمي",
     "school": "مدرسة صويلح الثانوية للبنين",
     "tagline": "أوراق العمل، المحاكيات التفاعلية، وروابط الأدوات، وتسليم المهام — كل ما تحتاجه لصفّك في مكان واحد.",
     "year": "2026 / 2027",
     "email": "",
-    "lastUpdated": "2026-10-29",
-    "accent": "#053d38",
-    "accent2": "#2c7d72"
+    "lastUpdated": "2026-10-27",
+    "accent": "#0d9488",
+    "accent2": "#2dd4bf",
+    "categories": [
+      "مهمة",
+      "واجب منزلي",
+      "فيديو تعليمي",
+      "ورقة عمل",
+      "رابط مفيد",
+      "اختبار قصير",
+      "مشروع"
+    ]
   },
   "instructions": [
     {
@@ -49,15 +61,15 @@ window.SITE_DATA = {
     },
     {
       "icon": "🔗",
-      "title": "w3schools.com",
+      "title": "تدريبات Excel — W3Schools",
       "url": "https://www.w3schools.com/excel/index.php",
       "note": "موقع تعليمي إكسل"
     },
     {
-      "icon": "",
-      "title": "www.programiz.com",
-      "url": "https://www.programiz.com/python-programming/online-compiler/",
-      "note": ""
+      "icon": "▶️",
+      "title": "فيديو تعليمي — يوتيوب",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "note": "يشغَّل داخل الصفحة بدون مغادرتها"
     }
   ],
   "classes": [
@@ -81,7 +93,8 @@ window.SITE_DATA = {
           "title": "أوراق عمل المهارات الرقمية",
           "url": "https://mrjfaras101-cell.github.io/g10ws/",
           "desc": "الحقيبة الكاملة، ونسخة الطالب بدون حلول، وأوراق الدروس 1–4 بصيغة Word.",
-          "tag": "أوراق عمل"
+          "tag": "أوراق عمل",
+          "type": "task"
         },
         {
           "icon": "🔗",
@@ -89,7 +102,8 @@ window.SITE_DATA = {
           "url": "https://raw.githubusercontent.com/mrjfaras101-cell/hub/main/%D8%AA%D9%85%D8%B1%D9%8A%D9%86_%D8%B9%D9%85%D9%84%D9%8A_%D8%AF%D9%88%D8%A7%D9%84_%D8%A7%D9%84%D8%A5%D9%83%D8%B3%D9%84_%D8%A7%D9%84%D8%B5%D9%81_%D8%A7%D9%84%D8%B9%D8%A7%D8%B4%D8%B1.xlsx",
           "desc": "ملف عمل الإكسل الخاص بالمهام",
           "tag": "مهمة",
-          "download": true
+          "download": true,
+          "type": "task"
         }
       ]
     },
@@ -107,28 +121,26 @@ window.SITE_DATA = {
       "formUrl": "",
       "cards": [
         {
-          "icon": "🔗",
-          "title": "أوراق عمل بايثون",
-          "url": "https://raw.githubusercontent.com/mrjfaras101-cell/hub/main/python.pdf",
-          "desc": "إقرأ بعناية المطلوب من كل سؤال ثم أجب عن التحدي الذي يلي السؤال مستعيناً بالحل المعروض في داخل المهمة.",
-          "tag": "مهمة",
-          "download": true
-        },
-        {
           "icon": "🐍",
           "title": "أوراق عمل بايثون التفاعلية",
           "url": "https://mrjfaras101-cell.github.io/grad10ws/",
           "desc": "ثلاث أوراق عمل مع الحلول، مساحة كتابة كود، ومحاكي تنفيذ البرنامج.",
-          "tag": "أوراق عمل"
-        },
-        {
-          "icon": "🔗",
-          "title": "ورقة العمل 1- الجزء الأول",
-          "url": "https://youtu.be/mHnB_fZJs8E?si=v7riG6WQETLNqbRx",
-          "desc": "",
-          "tag": "مهمة"
+          "tag": "أوراق عمل",
+          "type": "task"
         }
       ]
+    }
+  ],
+  "videos": [
+    {
+      "icon": "🎬",
+      "title": "فيديو تعليمي — مقدمة في دوال Excel",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "desc": "شرح مبسط لدوال الجمع والمتوسط مع أمثلة عملية",
+      "classId": "",
+      "from": "",
+      "until": "",
+      "hidden": false
     }
   ]
 };
