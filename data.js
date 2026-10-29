@@ -127,18 +127,18 @@ window.SITE_DATA = {
         },
         {
           "icon": "🔗",
+          "title": "ورقة العمل 1 الجزء الثاني",
+          "url": "https://youtu.be/o5SKbrOppcs?si=rJZ9IrDleEbqUeNe",
+          "desc": "",
+          "tag": "مهمة"
+        },
+        {
+          "icon": "🔗",
           "title": "أوراق عمل بايثون",
           "url": "https://raw.githubusercontent.com/mrjfaras101-cell/hub/main/python.pdf",
           "desc": "إقرأ بعناية المطلوب من كل سؤال ثم أجب عن التحدي الذي يلي السؤال مستعيناً بالحل المعروض في داخل المهمة.",
           "tag": "مهمة",
           "download": true
-        },
-        {
-          "icon": "🔗",
-          "title": "رابط جديد",
-          "url": "https://",
-          "desc": "",
-          "tag": "مهمة"
         },
         {
           "icon": "🔗",
