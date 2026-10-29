@@ -8,7 +8,7 @@ window.SITE_DATA = {
     "tagline": "أوراق العمل، المحاكيات التفاعلية، وروابط الأدوات، وتسليم المهام — كل ما تحتاجه لصفّك في مكان واحد.",
     "year": "2026 / 2027",
     "email": "",
-    "lastUpdated": "2026-10-27",
+    "lastUpdated": "2026-10-29",
     "accent": "#053d38",
     "accent2": "#2c7d72"
   },
@@ -61,7 +61,7 @@ window.SITE_DATA = {
     },
     {
       "icon": "🔗",
-      "title": "أداة جديدة",
+      "title": "فيديو تعليمي ",
       "url": "https://www.youtube.com/watch?v=lLAW7Buy27o",
       "note": "فيديو تعليمي عن جملة الدوران for بلغة البايثون"
     }
