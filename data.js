@@ -58,18 +58,6 @@ window.SITE_DATA = {
       "title": "www.programiz.com",
       "url": "https://www.programiz.com/python-programming/online-compiler/",
       "note": ""
-    },
-    {
-      "icon": "🔗",
-      "title": "فيديو تعليمي ",
-      "url": "https://www.youtube.com/watch?v=lLAW7Buy27o",
-      "note": "فيديو تعليمي عن جملة الدوران for بلغة البايثون"
-    },
-    {
-      "icon": "🔗",
-      "title": "فيديو تعليمي ورقة عمل 1 - الجزء الأول",
-      "url": "https://youtu.be/mHnB_fZJs8E?si=tsXYiIjIwhQ_gWCQ",
-      "note": "ورقة عمل 1 - الجزء الأول"
     }
   ],
   "classes": [
