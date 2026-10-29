@@ -107,6 +107,14 @@ window.SITE_DATA = {
       "formUrl": "",
       "cards": [
         {
+          "icon": "🔗",
+          "title": "أوراق عمل بايثون",
+          "url": "https://raw.githubusercontent.com/mrjfaras101-cell/hub/main/python.pdf",
+          "desc": "إقرأ بعناية المطلوب من كل سؤال ثم أجب عن التحدي الذي يلي السؤال مستعيناً بالحل المعروض في داخل المهمة.",
+          "tag": "مهمة",
+          "download": true
+        },
+        {
           "icon": "🐍",
           "title": "أوراق عمل بايثون التفاعلية",
           "url": "https://mrjfaras101-cell.github.io/grad10ws/",
@@ -115,11 +123,10 @@ window.SITE_DATA = {
         },
         {
           "icon": "🔗",
-          "title": "أوراق عمل بايثون",
-          "url": "https://raw.githubusercontent.com/mrjfaras101-cell/hub/main/python.pdf",
-          "desc": "إقرأ بعناية المطلوب من كل سؤال ثم أجب عن التحدي الذي يلي السؤال مستعيناً بالحل المعروض في داخل المهمة.",
-          "tag": "مهمة",
-          "download": true
+          "title": "ورقة العمل 1- الجزء الأول",
+          "url": "https://youtu.be/mHnB_fZJs8E?si=v7riG6WQETLNqbRx",
+          "desc": "",
+          "tag": "مهمة"
         }
       ]
     }
