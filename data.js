@@ -167,6 +167,15 @@ window.SITE_DATA = {
           "from": "",
           "until": "",
           "hidden": false
+        },
+        {
+          "icon": "🎬",
+          "title": "ورقة عمل 1- فيديو تعليمي - الجزء الأول",
+          "url": "https://youtu.be/C4QKyawwz4E?si=QyuNuEGU9EOM2uUE",
+          "desc": "تنفيذ ورقة ا لعمل 1-تابع الفيديو الذي يوضح كيفية التعامل مع حل التمارين في ورقة العمل",
+          "from": "",
+          "until": "",
+          "hidden": false
         }
       ]
     }
