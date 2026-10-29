@@ -461,7 +461,7 @@
 
   <div class="wrap">
     <section class="section" id="instructionsHost">
-      <div class="sec-head"><h2>📌 كيف تستخدم هذه البوابة؟</h2></div>
+      <div class="sec-head"><h2 id="instrTitle">📌 كيف تستخدم هذه البوابة؟</h2></div>
       <div class="panel"><div class="steps" id="stepGrid"></div></div>
     </section>
 
@@ -613,6 +613,20 @@ function startApp() {
     if (until && t > until) return false;     /* انتهى موعده */
     return true;
   }
+  var IC = {};
+  var TT = {};
+  function initSectionMeta() {
+    var S = DATA.site || {};
+    var di = { videos:"🎬", links:"🔗", tools:"🧰", instructions:"📌", submit:"📤" };
+    var dt = { videos:"فيديوهات تعليمية", links:"روابط", tools:"أدوات تفاعلية",
+               instructions:"كيف تستخدم هذه البوابة؟", submit:"تسليم المهام" };
+    var si = S.sectionIcons || {}, st = S.sectionTitles || {};
+    Object.keys(di).forEach(function (k) {
+      IC[k] = String(si[k] || "").trim() || di[k];
+      TT[k] = String(st[k] || "").trim() || dt[k];
+    });
+  }
+
   function groupName(g) {
     return (g && typeof g === "object") ? String(g.name || "") : String(g == null ? "" : g);
   }
@@ -700,6 +714,8 @@ function startApp() {
     }
 
     $("#tagline").textContent = S.tagline || "";
+    var it = document.getElementById("instrTitle");
+    if (it) it.textContent = IC.instructions + " " + TT.instructions;
 
     var meta = [];
     if (S.teacher) meta.push('<span><i>👨‍🏫</i>' + esc(S.teacher) + "</span>");
@@ -716,7 +732,7 @@ function startApp() {
     var liveTools = (DATA.tools || []).filter(itemLive).filter(function (t) { return !!safeUrl(t.url); }).length;
     st.push('<div class="stat"><b>' + liveTools + "</b><small>أدوات تفاعلية</small></div>");
     var vids = (DATA.videos || []).filter(itemLive).filter(function (v) { return !!safeUrl(v.url); }).length;
-    if (vids) st.push('<div class="stat"><b>' + vids + "</b><small>فيديوهات تعليمية</small></div>");
+    if (vids) st.push('<div class="stat"><b>' + vids + "</b><small>" + esc(IC.videos + " " + TT.videos) + "</small></div>");
     $("#stats").innerHTML = st.join("");
 
     var f = $("#footTeacher");
@@ -794,7 +810,7 @@ function startApp() {
     }).join("");
     if (!items) return "";
     return '<section class="section">' +
-      '<div class="sec-head"><h2>🧰 أدوات تفاعلية</h2>' +
+      '<div class="sec-head"><h2>' + esc(IC.tools) + " " + esc(TT.tools) + "</h2>" +
       '<span class="count">' + tools.length + "</span>" +
       '<span class="spacer"></span></div>' +
       '<div class="panel"><div class="tools">' + items + "</div></div></section>";
@@ -802,10 +818,12 @@ function startApp() {
 
   /* ---------------- Educational videos ---------------- */
   function videosFor(c) {
-    return (DATA.videos || []).filter(itemLive).filter(function (v) {
+    var own = (c.videos || []);
+    var legacy = (DATA.videos || []).filter(function (v) {
       var cid = String(v.classId || "").trim();
       return !cid || cid === String(c.id);
-    }).filter(function (v) { return !!safeUrl(v.url); });
+    });
+    return own.concat(legacy).filter(itemLive).filter(function (v) { return !!safeUrl(v.url); });
   }
   function videosHtml(c) {
     var list = videosFor(c);
@@ -826,7 +844,7 @@ function startApp() {
         "</div></article>";
     }).join("");
     return '<section class="section" id="videosBlock" style="--tc:' + esc(c.color || ACCENT) + '">' +
-      '<div class="sec-head"><h2>🎬 فيديوهات تعليمية</h2>' +
+      '<div class="sec-head"><h2>' + esc(IC.videos) + " " + esc(TT.videos) + "</h2>" +
       '<span class="count">' + list.length + "</span></div>" +
       '<div class="vgrid">' + cards + "</div></section>";
   }
@@ -841,7 +859,7 @@ function startApp() {
       '<div class="notice"><span>⚠️</span><span>لم يُضَف رابط نموذج التسليم لهذا الصف بعد — يُضاف من لوحة المعلم.</span></div>';
 
     return '<section class="section" id="submitBlock">' +
-      '<div class="sec-head"><h2>📤 تسليم المهام</h2></div>' +
+      '<div class="sec-head"><h2>' + esc(IC.submit) + " " + esc(TT.submit) + "</h2></div>" +
       '<div class="submit-card"><div class="submit-in">' +
         '<p style="margin:0 0 10px; color:var(--muted); font-size:13.5px">اختر شعبتك، ثم افتح النموذج واكتب اسمك وشعبتك وأرفق رابط حلّك أو ملفه.</p>' +
         (chips ? '<div class="chips" id="chips">' + chips + "</div>" : "") +
@@ -890,7 +908,7 @@ function startApp() {
 
       '<section class="section" style="--tc:' + esc(color) + '">' +
         '<div class="sec-head">' +
-          "<h2>🔗 روابط " + esc(c.name) + "</h2>" +
+          "<h2>" + esc(IC.links) + " " + esc(TT.links) + " " + esc(c.name) + "</h2>" +
           '<span class="count" id="cardsCount">' + totalCards + "</span>" +
           '<span class="spacer"></span>' +
           '<input type="search" id="q" placeholder="ابحث عن مهمة أو رابط…  ( / )" aria-label="بحث" ' +
@@ -1108,6 +1126,7 @@ function startApp() {
     }
   })();
 
+  initSectionMeta();
   initTheme();
   initVideo();
   initYouTubeCards();

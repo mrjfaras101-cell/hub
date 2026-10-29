@@ -1,4 +1,7 @@
-/* ملف بيانات البوابة — يُولَّد من لوحة المعلم */
+/* ===================================================================
+   ملف بيانات الموقع — يُعدَّل من لوحة المعلم (admin.html) وليس يدوياً
+   يُرفع هذا الملف مع index.html إلى مستودع GitHub
+   =================================================================== */
 window.SITE_DATA = {
   "site": {
     "title": "بوابة باسم النعيمي",
@@ -19,7 +22,21 @@ window.SITE_DATA = {
       "رابط مفيد",
       "اختبار قصير",
       "مشروع"
-    ]
+    ],
+    "sectionIcons": {
+      "videos": "🎬",
+      "links": "🔗",
+      "tools": "🧰",
+      "instructions": "📌",
+      "submit": "📤"
+    },
+    "sectionTitles": {
+      "videos": "فيديوهات تعليمية",
+      "links": "روابط",
+      "tools": "أدوات تفاعلية",
+      "instructions": "كيف تستخدم هذه البوابة؟",
+      "submit": "تسليم المهام"
+    }
   },
   "instructions": [
     {
@@ -102,7 +119,8 @@ window.SITE_DATA = {
           "download": true,
           "type": "task"
         }
-      ]
+      ],
+      "videos": []
     },
     {
       "id": "g11",
@@ -133,29 +151,28 @@ window.SITE_DATA = {
           "tag": "مهمة",
           "download": true
         }
+      ],
+      "videos": [
+        {
+          "icon": "🎬",
+          "title": "فيديو تعليمي — مقدمة في دوال Excel",
+          "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "desc": "شرح مبسط لدوال الجمع والمتوسط مع أمثلة عملية",
+          "from": "",
+          "until": "",
+          "hidden": false
+        },
+        {
+          "icon": "🎬",
+          "title": "ورقة عمل 1- فيديو تعليمي - الجزء الأول",
+          "url": "https://youtu.be/mHnB_fZJs8E?si=W3IeGgMDlRnJM3Mo",
+          "desc": "تنفيذ ورقة ا لعمل 1-تابع الفيديو الذي يوضح كيفية التعامل مع حل التمارين في ورقة العمل",
+          "from": "",
+          "until": "",
+          "hidden": false
+        }
       ]
     }
   ],
-  "videos": [
-    {
-      "icon": "🎬",
-      "title": "فيديو تعليمي — مقدمة في دوال Excel",
-      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "desc": "شرح مبسط لدوال الجمع والمتوسط مع أمثلة عملية",
-      "classId": "g11",
-      "from": "",
-      "until": "",
-      "hidden": false
-    },
-    {
-      "icon": "🎬",
-      "title": "ورقة عمل 1- فيديو تعليمي - الجزء الأول",
-      "url": "https://youtu.be/mHnB_fZJs8E?si=W3IeGgMDlRnJM3Mo",
-      "desc": "تنفيذ ورقة ا لعمل 1-تابع الفيديو الذي يوضح كيفية التعامل مع حل التمارين في ورقة العمل",
-      "classId": "g11",
-      "from": "",
-      "until": "",
-      "hidden": false
-    }
-  ]
+  "videos": []
 };
