@@ -75,12 +75,6 @@ window.SITE_DATA = {
       "title": "تدريبات Excel — W3Schools",
       "url": "https://www.w3schools.com/excel/index.php",
       "note": "موقع تعليمي إكسل"
-    },
-    {
-      "icon": "▶️",
-      "title": "فيديو تعليمي — يوتيوب",
-      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "note": "يشغَّل داخل الصفحة بدون مغادرتها"
     }
   ],
   "classes": [
