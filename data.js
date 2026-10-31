@@ -9,8 +9,8 @@ window.SITE_DATA = {
     "year": "2026 / 2027",
     "email": "",
     "lastUpdated": "2026-10-31",
-    "accent": "#0d9488",
-    "accent2": "#2dd4bf",
+    "accent": "#3c0af0",
+    "accent2": "#b3a9e5",
     "categories": [
       "مهمة",
       "واجب منزلي",
@@ -22,10 +22,10 @@ window.SITE_DATA = {
     ],
     "sectionIcons": {
       "videos": "🎬",
-      "links": "🔗",
-      "tools": "🧰",
-      "instructions": "📌",
-      "submit": "📤"
+      "links": "🌐",
+      "tools": "🛠️",
+      "instructions": "📝",
+      "submit": "📝"
     },
     "sectionTitles": {
       "videos": "فيديوهات تعليمية",
@@ -82,7 +82,7 @@ window.SITE_DATA = {
       "id": "g10",
       "name": "الصف العاشر",
       "icon": "🎓",
-      "color": "#0d9488",
+      "color": "#3c0af0",
       "intro": "المهارات الرقمية — أوراق عمل الوحدة الأولى مع الحلول والمحاكيات التفاعلية.",
       "groups": [
         "أ",
@@ -136,7 +136,7 @@ window.SITE_DATA = {
       "id": "g11",
       "name": "الأول الثانوي",
       "icon": "🧭",
-      "color": "#0d9488",
+      "color": "#3c0af0",
       "intro": "البرمجة بلغة Python — أوراق عمل تفاعلية ومحاكيات لتنفيذ البرامج.",
       "groups": [
         "أ",
