@@ -116,7 +116,16 @@ window.SITE_DATA = {
           "icon": "🎬",
           "title": "أوراق عمل الإكسل -الدوال الرئيسية",
           "url": "https://youtu.be/v6TbjWBw-pc",
-          "desc": "",
+          "desc": "دالة sum- max-min -average",
+          "from": "",
+          "until": "",
+          "hidden": false
+        },
+        {
+          "icon": "🎬",
+          "title": "أوراق علم الإكسل - الدوال الشرطية",
+          "url": "https://youtu.be/F0s3LK6UFZs",
+          "desc": "دالة sumif-countif",
           "from": "",
           "until": "",
           "hidden": false
