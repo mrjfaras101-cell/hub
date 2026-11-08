@@ -75,6 +75,12 @@ window.SITE_DATA = {
       "title": "تدريبات Excel — W3Schools",
       "url": "https://www.w3schools.com/excel/index.php",
       "note": "موقع تعليمي إكسل"
+    },
+    {
+      "icon": "🔗",
+      "title": "لوحة Padlet الخاصة بالصف العاشر الأساسي",
+      "url": "https://padlet.com/mrjfaras101/2026-2027-vjo1n9wox4mfrb7d",
+      "note": "الأنشطة والمشاركات الصفية 2026/2027"
     }
   ],
   "classes": [
