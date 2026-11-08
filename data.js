@@ -8,7 +8,7 @@ window.SITE_DATA = {
     "tagline": "أوراق العمل، المحاكيات التفاعلية، وروابط الأدوات، وتسليم المهام — كل ما تحتاجه لصفّك في مكان واحد.",
     "year": "2026 / 2027",
     "email": "",
-    "lastUpdated": "2026-10-31",
+    "lastUpdated": "2026-11-08",
     "accent": "#3c0af0",
     "accent2": "#b3a9e5",
     "categories": [
@@ -66,8 +66,8 @@ window.SITE_DATA = {
     },
     {
       "icon": "📌",
-      "title": "لوحة Padlet",
-      "url": "https://padlet.com/mrjfaras101/2026-2027-vjo1n9wox4mfrb7d",
+      "title": "لوحة Padlet الخاصة بالأول الثانوي الأكاديمي",
+      "url": "https://padlet.com/mrjfaras101/padlet-s0259wo94fw29ojkp1vs",
       "note": "الأنشطة والمشاركات الصفية 2026/2027"
     },
     {
